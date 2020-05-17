@@ -1,0 +1,40 @@
+// Copyright 2009 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Package adler32 implements the Adler-32 checksum.
+//
+// It is defined in RFC 1950:
+//	Adler-32 is composed of two sums accumulated per byte: s1 is
+//	the sum of all bytes, s2 is the sum of all s1 values. Both sums
+//	are done modulo 65521. s1 is initialized to 1, s2 to zero.  The
+//	Adler-32 checksum is stored as s2*65536 + s1 in most-
+//	significant-byte first (network) order.
+package adler32
+
+import (
+	"errors"
+	"hash"
+)
+
+const (
+	// mod is the largest prime that is less than 65536.
+	mod = 65521
+	// nmax is the largest n such that
+	// 255 * n * (n+1) / 2 + (n+1) * (mod-1) <= 2^32-1.
+	// It is mentioned in RFC 1950 (search for "5552").
+	nmax = 5552
+)
+
+// The size of an Adler-32 checksum in bytes.
+const Size = 4
+
+// New returns a new hash.Hash32 computing the Adler-32 checksum. Its
+// Sum method will lay the value out in big-endian byte order. The
+// returned Hash32 also implements encoding.BinaryMarshaler and
+// encoding.BinaryUnmarshaler to marshal and unmarshal the internal
+// state of the hash.
+func New() hash.Hash32 {}
+
+// Checksum returns the Adler-32 checksum of data.
+func Checksum(data []byte) uint32 {}
